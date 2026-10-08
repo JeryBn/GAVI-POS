@@ -10,6 +10,8 @@ Proyecto Flutter ejecutable, PostgreSQL/Supabase real con tablas privadas, publi
 
 ## Uso diario
 
+Ensayo real del 8/10: artículo GAVI-TEST-001 con tres unidades, caja inicial cero, venta de una unidad a S/ 1.00, sincronización, devolución auditada y cierre en cero sin diferencia. PostgreSQL confirmó stock/cupo tres y caja cerrada. Artículo desactivado después del ensayo; la venta y devolución de prueba permanecen en historial y deben distinguirse de operaciones comerciales al iniciar el piloto.
+
 1. Entrar con cuenta del trabajador; para practicar elegir un rol demo. Cada usuario tiene almacenamiento separado en ese equipo.
 2. Abrir Caja con fondo inicial. Cada dispositivo tiene su propia sesión; no existe una caja única compartida entre los nueve equipos.
 3. Buscar producto por nombre, SKU o código escrito por un lector de teclado. Tocar producto y ajustar cantidad. Si el perfil tiene permiso puede editar precio respetando el mínimo autorizado.
