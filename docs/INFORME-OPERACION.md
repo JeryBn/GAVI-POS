@@ -6,7 +6,7 @@ Fecha: 8/10/2026. Un negocio, soles PEN. Equipos previstos: cinco Android, tres 
 
 Proyecto Flutter ejecutable, PostgreSQL/Supabase real con tablas privadas, publicación HTTPS https://gavi-pos.pages.dev y APK Android de pruebas. La demostración conserva ejemplos localmente sin enviarlos a la nube. El negocio usa Supabase Auth y perfiles aprobados. Administrador temporal creado por el propietario; contraseña no guardada en el código.
 
-17 pruebas Flutter aprobadas, análisis sin problemas, compilaciones web/Android correctas. La base real pasó pruebas transaccionales de stock, cupos, idempotencia, caja, crédito, pagos, ajustes y permisos/RLS; todos los fixtures se revirtieron. PDF 58/80 mm generados, renderizados e inspeccionados. Interfaz de venta web abierta y operada en Chrome. Falta el piloto físico de los ocho teléfonos y ambas impresoras. La entrega es una versión de validación y no una certificación comercial.
+17 pruebas Flutter aprobadas, análisis sin problemas, compilaciones web/Android correctas. La base real pasó pruebas transaccionales de stock, cupos, idempotencia, caja, crédito, pagos, devoluciones, auditoría, ajustes y permisos/RLS; todos los fixtures se revirtieron. PDF 58/80 mm generados, renderizados e inspeccionados. Venta demo y previsualización PDF operadas en Chrome sobre la URL pública. Ingreso del administrador temporal y sincronización real con cero pendientes comprobados. Falta el piloto físico de los ocho teléfonos y ambas impresoras. La entrega es una versión de validación y no una certificación comercial.
 
 ## Uso diario
 

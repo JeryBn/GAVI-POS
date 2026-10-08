@@ -27,6 +27,20 @@ do $$ begin
  raise exception 'TEST: sobrepago permitido';
  exception when others then if SQLERRM like 'TEST:%' then raise; end if; end;
 end $$;
+-- Full refund restores units exactly once; credit with later payments requires reconciliation.
+select public.apply_operation('00000000-0000-4000-8000-000000000045','refund','{"device_id":"00000000-0000-4000-8000-000000000020","cash_id":"00000000-0000-4000-8000-000000000030","sale_id":"00000000-0000-4000-8000-000000000031","method":"Efectivo","reason":"Prueba","total":500,"amount":500,"items":[{"product_id":"00000000-0000-4000-8000-000000000010","quantity":2,"price":250,"total":500}]}'::jsonb,now());
+do $$ begin
+ if (select stock from products where sku='TEST-RPC')<>11 or (select expected from cash_sessions where id='00000000-0000-4000-8000-000000000030')<>10100 then raise exception 'Devolución no concilia'; end if;
+ begin
+ perform public.apply_operation('00000000-0000-4000-8000-000000000046','refund','{"device_id":"00000000-0000-4000-8000-000000000020","cash_id":"00000000-0000-4000-8000-000000000030","sale_id":"00000000-0000-4000-8000-000000000031","method":"Efectivo","reason":"Duplicado","total":500,"amount":500,"items":[{"product_id":"00000000-0000-4000-8000-000000000010","quantity":2,"price":250,"total":500}]}'::jsonb,now());
+ raise exception 'TEST: doble devolución permitida';
+ exception when others then if SQLERRM like 'TEST:%' then raise; end if; end;
+ begin
+ perform public.apply_operation('00000000-0000-4000-8000-000000000047','refund','{"device_id":"00000000-0000-4000-8000-000000000020","cash_id":"00000000-0000-4000-8000-000000000030","sale_id":"00000000-0000-4000-8000-000000000041","method":"Crédito","reason":"Prueba","total":250,"amount":100,"items":[{"product_id":"00000000-0000-4000-8000-000000000010","quantity":1,"price":250,"total":250}]}'::jsonb,now());
+ raise exception 'TEST: devolución con abono no conciliado permitida';
+ exception when others then if SQLERRM like 'TEST:%' then raise; end if; end;
+ if not exists(select 1 from audit_log where entity='products') then raise exception 'Auditoría ausente'; end if;
+end $$;
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000002',true);
 do $$ begin
  if exists(select 1 from public.operations where kind='sale') then raise exception 'RLS expone ventas ajenas'; end if;
@@ -37,4 +51,4 @@ set local role anon;
 do $$ begin begin perform count(*) from public.products;raise exception 'TEST: acceso anónimo permitido';exception when insufficient_privilege then null;end;end $$;
 reset role;
 rollback;
-select 'PASS: idempotencia, stock, cupos, caja, crédito, pagos, ajustes y RLS; fixtures revertidos' as resultado;
+select 'PASS: idempotencia, stock, cupos, caja, crédito, pagos, devoluciones, auditoría, ajustes y RLS; fixtures revertidos' as resultado;
