@@ -1,0 +1,26 @@
+name: gavi_pos
+description: POS privado con almacenamiento local y sincronizacion.
+publish_to: none
+version: 0.1.0+1
+environment:
+  sdk: ^3.13.4
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  drift: ^2.32.0
+  drift_flutter: ^0.3.1
+  supabase_flutter: ^2.10.0
+  uuid: ^4.5.1
+  intl: any
+  cupertino_icons: ^1.0.8
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  share_plus: ^12.0.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+flutter:
+  uses-material-design: true
